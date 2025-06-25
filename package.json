@@ -15,7 +15,9 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run add-shebang",
+    "add-shebang": "node -e \"const fs = require('fs'); const file = 'dist/server.js'; const content = fs.readFileSync(file, 'utf8'); if (!content.startsWith('#!')) { fs.writeFileSync(file, '#!/usr/bin/env node\\n' + content); }\"",
+    "postbuild": "npm run add-shebang",
     "dev": "nodemon --exec ts-node src/http-server.ts",
     "start": "node dist/http-server.js",
     "start:stdio": "node dist/server.js",
